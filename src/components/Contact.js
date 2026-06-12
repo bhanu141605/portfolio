@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import '../styles/Contact.css';
 
+// ── Where messages go ────────────────────────────────────────────────
+// 1. Create a free form at https://formspree.io  (use bhanuprakashnamburi553@gmail.com)
+// 2. Copy your form ID (looks like "xrgkabcd") and paste it below.
+// Until you do, the form falls back to opening the visitor's email app.
+const FORMSPREE_ID = 'mbdezwer';
+const FORMSPREE_ENDPOINT = `https://formspree.io/f/${FORMSPREE_ID}`;
+const FALLBACK_EMAIL = 'bhanuprakashnamburi553@gmail.com';
+const isConfigured = FORMSPREE_ID && FORMSPREE_ID !== 'YOUR_FORM_ID';
+
 function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -9,24 +18,63 @@ function Contact() {
     message: ''
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  // status: 'idle' | 'sending' | 'success' | 'error'
+  const [status, setStatus] = useState('idle');
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (status === 'error') setStatus('idle');
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Here you would typically send the form data to a server
-    console.log('Form submitted:', formData);
-    setSubmitted(true);
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setTimeout(() => setSubmitted(false), 3000);
+  const resetSoon = () => {
+    setTimeout(() => setStatus('idle'), 5000);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // No backend configured yet → open the visitor's email client (always works).
+    if (!isConfigured) {
+      const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0A%0D%0A${encodeURIComponent(
+        formData.message
+      )}`;
+      window.location.href = `mailto:${FALLBACK_EMAIL}?subject=${encodeURIComponent(
+        formData.subject || 'Portfolio enquiry'
+      )}&body=${body}`;
+      return;
+    }
+
+    setStatus('sending');
+    setErrorMsg('');
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (res.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        resetSoon();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setErrorMsg(
+          data?.errors?.[0]?.message ||
+            'Something went wrong sending your message. Please email me directly.'
+        );
+        setStatus('error');
+      }
+    } catch (err) {
+      setErrorMsg('Network error — please check your connection or email me directly.');
+      setStatus('error');
+    }
+  };
+
+  const sending = status === 'sending';
 
   return (
     <section id="contact" className="contact">
@@ -34,7 +82,7 @@ function Contact() {
         <span className="section-eyebrow">Let's talk</span>
         <h2>Get In Touch</h2>
         <p className="section-subtitle">I'd love to hear from you. Let's connect and create something amazing together!</p>
-        
+
         <div className="contact-content">
           <div className="contact-info">
             <div className="info-item">
@@ -63,9 +111,19 @@ function Contact() {
             </div>
           </div>
 
-          <form className="contact-form" onSubmit={handleSubmit}>
-            {submitted && <div className="success-message">Message sent successfully!</div>}
-            
+          <form className="contact-form" onSubmit={handleSubmit} noValidate>
+            {status === 'success' && (
+              <div className="form-alert success-message" role="status">
+                ✅ Thanks! Your message has been sent — I'll get back to you soon.
+              </div>
+            )}
+            {status === 'error' && (
+              <div className="form-alert error-message" role="alert">
+                ⚠️ {errorMsg}{' '}
+                <a href={`mailto:${FALLBACK_EMAIL}`}>{FALLBACK_EMAIL}</a>
+              </div>
+            )}
+
             <div className="form-group">
               <label htmlFor="name">Name</label>
               <input
@@ -75,6 +133,8 @@ function Contact() {
                 value={formData.name}
                 onChange={handleChange}
                 required
+                autoComplete="name"
+                disabled={sending}
                 placeholder="Your name"
               />
             </div>
@@ -88,6 +148,8 @@ function Contact() {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                autoComplete="email"
+                disabled={sending}
                 placeholder="your.email@example.com"
               />
             </div>
@@ -101,6 +163,7 @@ function Contact() {
                 value={formData.subject}
                 onChange={handleChange}
                 required
+                disabled={sending}
                 placeholder="Project inquiry"
               />
             </div>
@@ -113,12 +176,21 @@ function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 required
+                disabled={sending}
                 placeholder="Your message here..."
                 rows="5"
               ></textarea>
             </div>
 
-            <button type="submit" className="btn btn-primary">Send Message</button>
+            <button type="submit" className="btn btn-primary" disabled={sending}>
+              {sending ? (
+                <>
+                  <span className="spinner" aria-hidden="true"></span> Sending…
+                </>
+              ) : (
+                'Send Message'
+              )}
+            </button>
           </form>
         </div>
       </div>

@@ -138,20 +138,67 @@
   align-self: flex-start;
 }
 
+.form-alert {
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  animation: slideDown 0.3s ease;
+}
+
 .success-message {
   background-color: #ecfdf5;
   color: #065f46;
-  padding: 0.9rem 1rem;
-  border-radius: var(--radius-sm);
   border: 1px solid #a7f3d0;
-  font-weight: 500;
-  font-size: 0.92rem;
-  animation: slideDown 0.3s ease;
+}
+
+.error-message {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.error-message a {
+  color: #991b1b;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Loading spinner inside the send button */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.contact-form .btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.form-group input:disabled,
+.form-group textarea:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation-duration: 1.2s; }
 }
 
 /* Responsive */
@@ -166,6 +213,11 @@
   .contact-form { padding: 1.5rem; }
   .contact-info .info-item { padding: 1.1rem; }
   .form-group input,
-  .form-group textarea { font-size: 16px; }
+  .form-group textarea { font-size: 16px; } /* 16px stops iOS zoom-on-focus */
   .social-links a { padding: 0.45rem 0.9rem; font-size: 0.82rem; }
+  .contact-form .btn {
+    align-self: stretch;
+    width: 100%;
+    padding: 1rem 1.5rem; /* larger tap target */
+  }
 }

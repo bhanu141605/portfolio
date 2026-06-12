@@ -38,6 +38,14 @@
 
 html {
   scroll-behavior: smooth;
+  /* keep anchor targets clear of the sticky header */
+  scroll-padding-top: 80px;
+}
+
+html, body {
+  /* hero blobs + animations must never create a horizontal scrollbar on mobile */
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -46,6 +54,19 @@ body {
   line-height: 1.65;
   background-color: var(--white);
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+}
+
+/* images never overflow their container on small screens */
+img { max-width: 100%; }
+
+/* respect notches / safe areas on modern phones */
+@supports (padding: env(safe-area-inset-left)) {
+  .container {
+    padding-left: max(24px, env(safe-area-inset-left));
+    padding-right: max(24px, env(safe-area-inset-right));
+  }
 }
 
 .container {
@@ -204,6 +225,8 @@ section {
   h2 { font-size: 1.55rem; }
   section { padding: 56px 0; }
   .container { padding: 0 18px; }
+  /* comfortable, thumb-sized tap targets on phones */
+  .btn { min-height: 46px; padding: 0.8rem 1.5rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

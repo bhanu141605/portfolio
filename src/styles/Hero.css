@@ -363,9 +363,14 @@
     height: 220px;
   }
 
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
   .hero-buttons .btn {
-    font-size: 0.9rem;
-    min-width: 140px;
+    font-size: 0.95rem;
+    width: 100%;
   }
 
   .badge {
