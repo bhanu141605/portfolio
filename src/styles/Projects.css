@@ -295,8 +295,9 @@
   .project-media img { height: 240px; }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .project-body { padding: 1.6rem 1.4rem; }
+  .project-head { padding-right: 2.5rem; }
   .project-head h3 { font-size: 1.3rem; }
   .features ul { grid-template-columns: 1fr; }
   .project-media img { height: 190px; }

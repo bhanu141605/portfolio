@@ -69,6 +69,17 @@
   width: 100%;
 }
 
+/* min-width:0 stops the text column from forcing the grid wider than the
+   viewport (the classic grid/flex blowout that clips content on mobile). */
+.hero-text,
+.hero-image {
+  min-width: 0;
+}
+
+.hero-text h1 {
+  overflow-wrap: break-word;
+}
+
 /* Text */
 .hero-greeting {
   display: inline-block;
@@ -321,7 +332,7 @@
     text-align: center;
   }
 
-  .hero-text h1 { font-size: 2.6rem; }
+  .hero-text h1 { font-size: 2.4rem; }
   .hero-role { font-size: 1.2rem !important; }
 
   .tagline {
@@ -329,7 +340,13 @@
     margin-right: auto;
   }
 
-  .hero-stats { justify-content: center; }
+  /* stats shrink to share the row instead of overflowing */
+  .hero-stats {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .stat { min-width: 0; }
 
   .hero-buttons {
     justify-content: center;
@@ -346,8 +363,9 @@
   .scroll-indicator { display: none; }
 }
 
-@media (max-width: 480px) {
-  .hero-text h1 { font-size: 2rem; }
+/* Covers large phones (~430–600px) where content was being clipped before */
+@media (max-width: 600px) {
+  .hero-text h1 { font-size: 2rem; line-height: 1.15; }
   .hero-role { font-size: 1.05rem !important; }
   .tagline { font-size: 0.95rem !important; }
 
@@ -355,14 +373,19 @@
     gap: 0.6rem;
   }
 
-  .stat { padding: 0.8rem; }
+  .stat {
+    flex: 1 1 0;
+    padding: 0.8rem 0.6rem;
+  }
   .stat-num { font-size: 1.4rem; }
+  .stat-label { font-size: 0.74rem; }
 
   .profile-ring {
     width: 220px;
     height: 220px;
   }
 
+  /* stacked, full-width buttons — no more side-by-side overflow */
   .hero-buttons {
     flex-direction: column;
     width: 100%;
@@ -371,10 +394,17 @@
   .hero-buttons .btn {
     font-size: 0.95rem;
     width: 100%;
+    min-width: 0;
   }
 
   .badge {
     font-size: 0.78rem;
     padding: 0.45rem 0.8rem;
   }
+}
+
+@media (max-width: 380px) {
+  .hero-text h1 { font-size: 1.75rem; }
+  .hero-stats { flex-direction: column; }
+  .profile-ring { width: 190px; height: 190px; }
 }
