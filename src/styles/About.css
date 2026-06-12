@@ -1,0 +1,121 @@
+/* About Section */
+.about {
+  background-color: var(--white);
+}
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.about-text p {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--muted);
+  margin-bottom: 1.4rem;
+}
+
+.about-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 2.2rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.1rem;
+}
+
+.info-item .label {
+  font-weight: 600;
+  color: var(--primary-color);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.info-item .value {
+  color: var(--text-color);
+  font-size: 0.92rem;
+  word-break: break-word;
+}
+
+/* Stats column */
+.about-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: sticky;
+  top: 90px;
+}
+
+.stat {
+  text-align: left;
+  padding: 1.6rem 1.8rem;
+  background: linear-gradient(135deg, #ffffff, var(--bg-color));
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 5px;
+  background: var(--gradient);
+}
+
+.stat:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stat h3 {
+  font-size: 2.6rem;
+  margin-bottom: 0.2rem;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat p {
+  color: var(--light-text);
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .about-stats {
+    position: static;
+    flex-direction: row;
+  }
+
+  .stat { flex: 1; }
+}
+
+@media (max-width: 600px) {
+  .about-info { grid-template-columns: 1fr; }
+  .about-stats { flex-direction: column; }
+  .about-text p { font-size: 0.98rem; }
+  .stat h3 { font-size: 2.1rem; }
+}

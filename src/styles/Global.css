@@ -1,0 +1,211 @@
+/* ============================================
+   Design System
+   ============================================ */
+:root {
+  /* Brand — Professional Tech (blue + teal) */
+  --primary-color: #2563eb;   /* blue-600 */
+  --primary-dark: #1d4ed8;    /* blue-700 */
+  --secondary-color: #14b8a6; /* teal-500 (accent) */
+  --accent: #14b8a6;          /* teal-500 */
+  --gradient: linear-gradient(135deg, #2563eb 0%, #14b8a6 100%);
+
+  /* Neutrals — slate */
+  --text-color: #0f172a;      /* slate-900 */
+  --heading: #0f172a;
+  --light-text: #64748b;      /* slate-500 */
+  --muted: #475569;           /* slate-600 */
+  --white: #ffffff;
+  --bg-color: #f8fafc;        /* slate-50  */
+  --bg-soft: #f1f5f9;         /* slate-100 */
+  --border-color: #e2e8f0;    /* slate-200 */
+
+  /* Section tints */
+  --bg-section: #eff6ff;      /* blue-50 */
+
+  /* Effects */
+  --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.06);
+  --shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+  --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.16);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text-color);
+  line-height: 1.65;
+  background-color: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  line-height: 1.25;
+  font-weight: 700;
+  color: var(--heading);
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: 2.75rem; }
+
+h2 {
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  position: relative;
+  padding-bottom: 1.1rem;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--gradient);
+}
+
+h3 { font-size: 1.4rem; }
+
+p {
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+/* Section eyebrow + heading wrapper */
+.section-eyebrow {
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  margin-bottom: 0.7rem;
+}
+
+h2 .accent-bar,
+.heading-bar {
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin: 1rem auto 0;
+  border-radius: 4px;
+  background: var(--gradient);
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--light-text);
+  font-size: 1.05rem;
+  max-width: 620px;
+  margin: 1.25rem auto 3.5rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: var(--white);
+  border: 1px solid var(--primary-color);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px rgba(37, 99, 235, 0.36);
+  color: var(--white);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-section);
+  color: var(--primary-dark);
+  transform: translateY(-3px);
+}
+
+/* Links */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+a:hover { color: var(--secondary-color); }
+
+/* Sections (each section sets its own background) */
+section {
+  padding: 100px 0;
+}
+
+/* Reveal on scroll (progressive enhancement) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 { font-size: 2.1rem; }
+  h2 { font-size: 1.8rem; }
+  section { padding: 70px 0; }
+  .section-subtitle { margin-bottom: 2.5rem; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 1.7rem; }
+  h2 { font-size: 1.55rem; }
+  section { padding: 56px 0; }
+  .container { padding: 0 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
